@@ -89,7 +89,7 @@ namespace vcpkg
         StringLiteral operating_system = "linux-musl";
 #endif
         auto host_proc = System::get_host_processor();
-        auto canonical_name = Strings::format("%s-%s", to_zstring_view(host_proc), operating_system);
+        auto canonical_name = Strings::format("%s-%s-lacoustics", to_zstring_view(host_proc), operating_system);
         return Triplet::from_canonical_name(std::move(canonical_name));
     }
 
@@ -100,7 +100,7 @@ namespace vcpkg
             return Triplet::from_canonical_name(std::string(*args.triplet));
         }
 #if defined(_WIN32)
-        return Triplet::from_canonical_name("x86-windows");
+        return Triplet::from_canonical_name("x86-windows-lacoustics");
 #else
         return system_triplet();
 #endif
