@@ -12,6 +12,8 @@
 #include <vcpkg/tools.h>
 #include <vcpkg/vcpkgpaths.h>
 
+#include <cassert>
+
 namespace vcpkg
 {
     struct ToolData
@@ -242,6 +244,7 @@ namespace vcpkg
 
     static PathAndVersion get_path(const VcpkgPaths& paths, const ToolProvider& tool)
     {
+        assert(System::get_environment_variable("VCPKG_FORCE_SYSTEM_BINARIES").has_value() == false);
         auto& fs = paths.get_filesystem();
 
         std::array<int, 3> min_version = tool.default_min_version();
@@ -253,15 +256,18 @@ namespace vcpkg
             candidate_paths.push_back(tool_data->exe_path);
             min_version = tool_data->version;
         }
-
-        auto& exe_stem = tool.exe_stem();
-        if (!exe_stem.empty())
+        // VCPKG_FORCE_SYSTEM_BINARIES has not been set when calling get_path, so we always ignore downloadable tool
+        else
         {
-            auto paths_from_path = fs.find_from_PATH(exe_stem);
-            candidate_paths.insert(candidate_paths.end(), paths_from_path.cbegin(), paths_from_path.cend());
-        }
+            auto& exe_stem = tool.exe_stem();
+            if (!exe_stem.empty())
+            {
+                auto paths_from_path = fs.find_from_PATH(exe_stem);
+                candidate_paths.insert(candidate_paths.end(), paths_from_path.cbegin(), paths_from_path.cend());
+            }
 
-        tool.add_special_paths(candidate_paths);
+            tool.add_special_paths(candidate_paths);
+        }
 
         const auto maybe_path = find_first_with_sufficient_version(paths, tool, candidate_paths, min_version);
         if (const auto p = maybe_path.get())
