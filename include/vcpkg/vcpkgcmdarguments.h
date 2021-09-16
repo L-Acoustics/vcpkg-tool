@@ -218,7 +218,7 @@ namespace vcpkg
 
         constexpr static StringLiteral RECURSIVE_DATA_ENV = "X_VCPKG_RECURSIVE_DATA";
 
-        bool binary_caching_enabled() const { return binary_caching.value_or(true); }
+        bool binary_caching_enabled() const { return binary_caching.value_or(false); }
         bool compiler_tracking_enabled() const { return compiler_tracking.value_or(true); }
         bool registries_enabled() const { return registries_feature.value_or(true); }
         bool versions_enabled() const { return versions_feature.value_or(true); }
