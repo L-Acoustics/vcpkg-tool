@@ -483,7 +483,7 @@ namespace vcpkg
     std::string get_host_os_name()
     {
 #if defined(_WIN32)
-        return "windows";
+        return "windows-v142";
 #elif defined(__APPLE__)
         return "osx";
 #elif defined(__FreeBSD__)

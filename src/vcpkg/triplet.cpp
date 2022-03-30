@@ -90,7 +90,7 @@ namespace vcpkg
             return Triplet::from_canonical_name(*triplet);
         }
 #if defined(_WIN32)
-        return Triplet::from_canonical_name("x86-windows-lacoustics");
+        return Triplet::from_canonical_name("x86-windows-v142-lacoustics");
 #else
         return system_triplet();
 #endif
