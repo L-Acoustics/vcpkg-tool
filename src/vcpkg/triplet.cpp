@@ -102,7 +102,12 @@ namespace vcpkg
     static std::string system_triplet_canonical_name()
     {
         auto host_proc = get_host_processor();
+
+#if defined(_WIN32)
+        return fmt::format("{}-{}-v142-lacoustics", to_zstring_view(host_proc), get_host_os_name());
+#else
         return fmt::format("{}-{}-lacoustics", to_zstring_view(host_proc), get_host_os_name());
+#endif
     }
 
     Triplet default_triplet(const VcpkgCmdArguments& args, const TripletDatabase& database)
