@@ -79,7 +79,7 @@ namespace vcpkg
     static Triplet system_triplet()
     {
 #if defined(_WIN32)
-        StringLiteral operating_system = "windows";
+        StringLiteral operating_system = "windows-v142";
 #elif defined(__APPLE__)
         StringLiteral operating_system = "osx";
 #elif defined(__FreeBSD__)
@@ -102,7 +102,7 @@ namespace vcpkg
             return Triplet::from_canonical_name(std::string(*args.triplet));
         }
 #if defined(_WIN32)
-        return Triplet::from_canonical_name("x86-windows-lacoustics");
+        return Triplet::from_canonical_name("x86-windows-v142-lacoustics");
 #else
         return system_triplet();
 #endif
