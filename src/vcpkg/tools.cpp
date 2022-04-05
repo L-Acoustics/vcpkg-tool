@@ -738,7 +738,7 @@ namespace vcpkg
             const bool env_force_system_binaries =
                 get_environment_variable(s_env_vcpkg_force_system_binaries).has_value();
             const bool env_force_download_binaries =
-                get_environment_variable("VCPKG_FORCE_DOWNLOADED_BINARIES").has_value();
+                true;//get_environment_variable("VCPKG_FORCE_DOWNLOADED_BINARIES").has_value();
             const auto maybe_tool_data =
                 parse_tool_data_from_xml(get_config_contents(), xml_config, tool.tool_data_name());
 
