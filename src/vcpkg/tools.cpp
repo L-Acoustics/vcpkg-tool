@@ -252,7 +252,7 @@ namespace vcpkg
             return false;
         }
         // If the VCPKG_FORCE_DOWNLOADED_BINARIES env var is set, it takes precedence
-        if (get_environment_variable("VCPKG_FORCE_DOWNLOADED_BINARIES").has_value())
+        //if (get_environment_variable("VCPKG_FORCE_DOWNLOADED_BINARIES").has_value())
         {
             return true;
         }
