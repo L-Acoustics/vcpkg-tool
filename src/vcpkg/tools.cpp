@@ -244,7 +244,7 @@ namespace vcpkg
         return {std::move(downloaded_path), std::move(downloaded_version)};
     }
 
-    static bool forceVcpkgDownloadedBinaries(const ToolData* tool_data)
+    static bool should_force_vcpkg_downloaded_binaries(const ToolData* tool_data)
     {
         // If the tool doesn't have a downloaded URL, we cannot force the downloaded version
         if (tool_data->url.empty())
@@ -272,7 +272,7 @@ namespace vcpkg
         {
             candidate_paths.push_back(tool_data->exe_path);
             min_version = tool_data->version;
-            search_system_tool = !forceVcpkgDownloadedBinaries(tool_data);
+            search_system_tool = !should_force_vcpkg_downloaded_binaries(tool_data);
         }
 
         if (search_system_tool)
