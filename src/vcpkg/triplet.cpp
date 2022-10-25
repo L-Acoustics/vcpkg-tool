@@ -76,10 +76,10 @@ namespace vcpkg
         return nullopt;
     }
 
-    static Triplet system_triplet()
+    static Triplet system_triplet(std::string const& postfix)
     {
 #if defined(_WIN32)
-        StringLiteral operating_system = "windows-v142";
+        StringLiteral operating_system = "windows";
 #elif defined(__APPLE__)
         StringLiteral operating_system = "osx";
 #elif defined(__FreeBSD__)
@@ -91,7 +91,7 @@ namespace vcpkg
 #endif
 
         auto host_proc = get_host_processor();
-        auto canonical_name = Strings::format("%s-%s-lacoustics", to_zstring_view(host_proc), operating_system);
+        auto canonical_name = Strings::format("%s-%s%s", to_zstring_view(host_proc), operating_system, postfix.c_str());
         return Triplet::from_canonical_name(std::move(canonical_name));
     }
 
@@ -102,9 +102,9 @@ namespace vcpkg
             return Triplet::from_canonical_name(std::string(*args.triplet));
         }
 #if defined(_WIN32)
-        return Triplet::from_canonical_name("x86-windows-v142-lacoustics");
+        return Triplet::from_canonical_name("x86-windows-v143-lacoustics");
 #else
-        return system_triplet();
+        return system_triplet("-lacoustics");
 #endif
     }
 
@@ -114,6 +114,6 @@ namespace vcpkg
         {
             return Triplet::from_canonical_name(std::string(*args.host_triplet));
         }
-        return system_triplet();
+        return system_triplet("");
     }
 }
