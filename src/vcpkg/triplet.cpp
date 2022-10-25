@@ -99,15 +99,22 @@ namespace vcpkg
         return nullopt;
     }
 
-    static std::string system_triplet_canonical_name()
+    static std::string system_triplet_canonical_name(const bool useLacousticsTriplet)
     {
         auto host_proc = get_host_processor();
 
+        if (useLacousticsTriplet)
+        {
 #if defined(_WIN32)
-        return fmt::format("{}-{}-v142-lacoustics", to_zstring_view(host_proc), get_host_os_name());
+            return fmt::format("{}-{}-v143-lacoustics", to_zstring_view(host_proc), get_host_os_name());
 #else
-        return fmt::format("{}-{}-lacoustics", to_zstring_view(host_proc), get_host_os_name());
+            return fmt::format("{}-{}-lacoustics", to_zstring_view(host_proc), get_host_os_name());
 #endif
+        }
+        else
+        {
+            return fmt::format("{}-{}", to_zstring_view(host_proc), get_host_os_name());
+        }
     }
 
     Triplet default_triplet(const VcpkgCmdArguments& args, const TripletDatabase& database)
@@ -118,14 +125,19 @@ namespace vcpkg
             return Triplet::from_canonical_name(*triplet_name);
         }
 
-        return default_host_triplet(args, database);
+        return default_host_triplet_internal(args, database, true);
+    }
+
+    Triplet default_host_triplet_internal(const VcpkgCmdArguments& args, const TripletDatabase& database, const bool useLacousticsTriplet)
+    {
+        auto host_triplet_name = args.host_triplet.value_or(system_triplet_canonical_name(useLacousticsTriplet));
+        check_triplet(host_triplet_name, database);
+        return Triplet::from_canonical_name(host_triplet_name);
     }
 
     Triplet default_host_triplet(const VcpkgCmdArguments& args, const TripletDatabase& database)
     {
-        auto host_triplet_name = args.host_triplet.value_or(system_triplet_canonical_name());
-        check_triplet(host_triplet_name, database);
-        return Triplet::from_canonical_name(host_triplet_name);
+        return default_host_triplet_internal(args, database, false);
     }
 
     void print_default_triplet_warning(const VcpkgCmdArguments& args, const TripletDatabase& database)
