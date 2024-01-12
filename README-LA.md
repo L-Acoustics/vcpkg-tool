@@ -23,16 +23,15 @@ Currently tested with:
 Build
 -----
 
-Update VERSION.txt
 Use Ninja, same on all platforms :)
 
 ```
 mkdir _build && cd _build
-cmake .. -G Ninja -D CMAKE_BUILD_TYPE=Release <platform specific options>
+cmake .. -G Ninja -D CMAKE_BUILD_TYPE=Release -D VCPKG_BASE_VERSION=<versionString> <platform specific options>
 cmake --build
 ```
 
-Note: on macOS, add `-D CMAKE_OSX_ARCHITECTURES="x86_64;arm64"` to generate a universal binary
+Note: on macOS, add `-D CMAKE_OSX_ARCHITECTURES="x86_64;arm64"` to generate a universal binary, and `-D CMAKE_OSX_DEPLOYMENT_TARGET=10.13` (or equivalent to manage the target macOS version)
 
 Note: on Windows, you need to do this from a "Developer Command Prompt for VS XXX" for environment variables
 pointing to your VS install to be setup correctly. Otherwise cmake will not find the right compiler.
