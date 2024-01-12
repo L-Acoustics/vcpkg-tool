@@ -27,9 +27,11 @@ Use Ninja, same on all platforms :)
 
 ```
 mkdir _build && cd _build
-cmake .. -G Ninja -D CMAKE_BUILD_TYPE=Release -D VCPKG_BASE_VERSION=<versionString> <platform specific options>
+cmake .. -G Ninja -D CMAKE_BUILD_TYPE=Release -D VCPKG_EMBED_GIT_SHA=1 -D VCPKG_BASE_VERSION=<versionString> <platform specific options>
 cmake --build
 ```
+
+Note: the version string *must* be in this format: YYYY-MM-DD
 
 Note: on macOS, add `-D CMAKE_OSX_ARCHITECTURES="x86_64;arm64"` to generate a universal binary, and `-D CMAKE_OSX_DEPLOYMENT_TARGET=10.13` (or equivalent to manage the target macOS version)
 
